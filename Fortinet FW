@@ -1,0 +1,11 @@
+-----------------------------Fortinet Firewall- --------------------------------------------------------------------------------------
+get system interface physical 
+get system interface physical port1
+
+To configure interfaces
+#config system interface
+Fortigate(interface)# show         To see all interfaces
+Fortigate(interface)# edit port1
+Fortigate(port1)# set mode static    to set as static from dynmic
+Fortigate(port1)# set ip 172.16.5.19 255.255.255.0
+
