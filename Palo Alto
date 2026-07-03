@@ -1,0 +1,86 @@
+> show session all filter state active
+
+-------------------------------------------------------------------------------
+ID/vsys  application    state  type flag  src[sport]/zone/proto (translated IP[port])
+                                              dst[dport]/zone (translated IP[port]
+-------------------------------------------------------------------------------
+
+ 
+
+35299/1  facebook       ACTIVE  FLOW        10.16.2.100[52648]/corp-trust/6 (10.16.2.100[52648])
+                                            69.63.176.170[80]/corp-untrust (69.63.176.170[80])
+32026/1  ssl            ACTIVE  FLOW        10.16.3.220[45307]/corp-untrust/6 (10.16.3.220[45307])
+
+ 
+
+ 
+
+To show all the information for a specific session ID, use the command:
+
+> show session id 
+
+> show session id 35299
+
+session    35299
+        c2s flow:
+                source:  x.x.x.x[corp-trust]
+                dst:      x.x.x.x
+                sport:    52648        dport:    80
+                proto:    6            dir:      c2s
+                state:    INIT          type:    FLOW
+                ipver:    4     
+                src-user: unknown
+                dst-user: unknown
+        s2c flow:
+                source:  x.x.x.x[corp-untrust]
+                dst:      x.x.x.x
+                sport:    80            dport:    52648
+                proto:    6            dir:      s2c
+                state:    INIT          type:    FLOW
+                ipver:    4     
+                src-user: unknown
+                dst-user: unknown
+        start time            : Thu May 28 11:31:58 2009
+        timeout              : 30 sec
+        total byte count      : 1603
+        layer7 packet count  : 13
+        vsys                  : vsys1
+        application          : facebook
+        rule                  : rule38
+        session to be logged at end      : yes
+        session in session ager          : no
+        session sync'ed from HA peer    : no
+        layer7 processing                : enabled
+        URL filtering enabled            : yes
+        URL category                    : personal-sites-and-blogs
+        session QoS rule index          : default (class 4)
+
+ 
+
+At a per-vsys-level, use the following command to view active sessions:
+
+> show session all filter vsys-name < vsys >state active
+
+ 
+
+> show session all filter vsys-name vsys1 state active
+
+--------------------------------------------------------------------------------
+
+ID          Application    State   Type Flag  Src[Sport]/Zone/Proto (translated IP[Port])
+
+Vsys                                          Dst[Dport]/Zone (translated IP[Port])
+
+--------------------------------------------------------------------------------
+
+67137512     ldap           ACTIVE  FLOW  NS   192.168.55.218[62453]/trust-L3/17  (10.66.22.55[17114])
+
+vsys1                                          10.66.22.243[389]/dmz-L3  (10.66.22.243[389])
+
+67137503     ldap           ACTIVE  FLOW  NS   192.168.55.218[54391]/trust-L3/17  (10.66.22.55[20289])
+
+vsys1                                          10.66.22.243[389]/dmz-L3  (10.66.22.243[389])
+
+67137521     ldap           ACTIVE  FLOW  NS   192.168.55.218[49393]/trust-L3/17  (10.66.22.55[64245])
+
+vsys1                                          10.66.22.243[389]/dmz-L3  (10.66.22.243[389])
