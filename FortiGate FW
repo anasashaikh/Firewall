@@ -9,3 +9,9 @@ Fortigate(interface)# edit port1
 Fortigate(port1)# set mode static    to set as static from dynmic
 Fortigate(port1)# set ip 172.16.5.19 255.255.255.0
 
+-------------------------------------------------------------------------------------------------
+#diagonose autoupdate versions              Fortiguard databases/engines installed
+
+#config log disk setting                    To enable disk loggin
+set status enable
+set maximum-log-age <Int>                        By default, logs older than seven days are deleted from the disk. This value is configurable.
