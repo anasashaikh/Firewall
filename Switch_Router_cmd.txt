@@ -1,0 +1,406 @@
+Switch Modes >(user mode)
+#(previledge mode)
+COMMANDS
+
+#to truobleshoot the network			tracert (IP)/facebook.com
+
+#VirtualPC (lower case only)
+
+     Description Command
+
+1. To check IP Address				show ip
+
+
+2. To set IP Address				ip 192.168.50.1/24 or 255.255.255.0 after this we add gateway (ip 192.168.100.1/24 192.168.100.254)
+
+3. To change PC name				set pcname pc-1
+
+4.  To save configuration of vpc		save
+
+5. to trace a route 				trace 192.168.100.20 (ip of destination device)-tracert(for real device)
+
+--------------------------------------------------------------------------------------------------------------------
+
+#Switch Virtual & Physical both (Not-case Sensitive)		common commands
+
+
+1.  To know each command in User Mode of switch 	?
+
+2.  To get access of Privilege mode			Enable
+
+3.  To check number of ports/ports config		Show IP Interface brief
+
+4.  To see mac-address table 				Show Mac Address-table
+
+5. To check and config specific ethernet port		Show interface Ethernet 0/0
+
+6. To check running config				show running-config
+
+7. To check Vlan table					show vlan / vlan brief
+
+
+7. to save configuration in previledge mode		write memory
+
+To erase all configuration of sw			write erase (after this cmd reboot device "restart" is mandatory select "No" after restart)
+
+8. To change baud rate of switch 			line console 0
+							speed 9600
+
+To see flash memory				show flash
+
+To delete file from flash memory		delete flash: vlan.dat(file name)
+
+--------------------------------------------------------------------------------------------------------------------
+
+#Commands for Vlan
+
+To Create VLAN				Vlan 10 (vlan any number)
+					name IT(give any name)
+					switchport mode access		access port(only data of single vlan can pass through this port)
+					switchport access Vlan 10	(only vlan 10 can pass through this port)
+
+To remove VLAN				No VLAN 10
+
+TO get back interface of removed vlan	default interface 0/1
+
+---------------------------------------------------------------------------------------------------------
+
+CMD for Trunk
+
+1. Select interface of SW		switchport trunk encapsulation dot1q / encapsulation ISL(For Cisco SWs only)
+					switchport mode trunk
+
+8. To see trunk table			show interfaces trunk 
+
+---------------------------------------------------------------------------------------------------------
+---> CMD for VTP (virtual trunking protocol) VTP-ser VTP-Cli
+
+To create VTP Ser			VTP mode server	
+					VTP domain CCN
+					VTP password CCN@123
+
+To Create VTP Client			VTP mode client
+					vtp domain CCN
+					vtp password CCN@123
+--------------------------------------------------------------------------------------------------------------
+DTP(Dynamic Trunking Protocol)
+Commands
+#select interface
+#switchport trunk encapsulation negotiate	
+#switchport mode dynamic desirable/auto		dynamic - interface will trunk with the same method as connected interface of sw
+---------------------------------------------------------------------------------------------------------------
+
+CDP/LLDP
+
+#Show CDP neighbours			To check CDP Table
+#No CDP Run				To disable CDP
+#No LLDP Run				To disable LLDP
+
+#CDP Run				TO enable CDP/LLDP
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+Router commands
+
+1. TO select interface of router		interface ethernet 0/0
+
+2. To turn on the interface of router 		no shutdown						m3
+
+3. TO set ip address to its interface		ip address 192.168.12.10  255.255.255.0 (IP SUBNET)		m3
+
+4. to save the config of router			do write memory						m3
+
+To erase/reset router				write erase	then "reload" to restart, after restart select "no"
+
+5. TO CHECK THE IP OF INTERFACES		DO SHOW IP INTERFACE BRIEF
+
+6. TO CHECK THE ROUTING TABLE 			DO SHOW IP ROUTE
+(SHOW KNOWN NETWORKS)
+
+To create logical port of router		interface loopback 1
+						ip address 1.1.1.1 255.255.255.0 (ip subnet)
+
+7. To do Default Routing			0.0.0.0 0.0.0.0 10.0.0.2 (def ip, def subnet, ip of intfce of router to which net will pass)      						TO REMOVE DEF ROUTING ADD "NO" BEFORE COMMAND
+
+8. TO SEE RUNNING CONFIG 			DO SHOW RUNNING CONFIG
+
+To do static routing				ip route 192.168.1.0 255.255.255.192 192.168.1.97
+						(IP ROUTE <Dest Network Address> <Dest Subnet Mask> <Next hop ip address>)
+
+#debug ip icmp
+#debug ip tcp packet (to debug icmp and tcp packets)
+
+................................................................................................
+Commands to take access of a server and ports opening of TCP
+
+#Telnet 200.20.20.1        		(To take telnet access)
+#SSH -L CISCO(username) 200.20.20.1  	(To take SSH access)
+#Telnet 200.20.20.1 80	   		(To take HTTP access)	
+#Telnet 200.20.20.2 443    		(To take HTTPS access)
+...............
+
+Commands to open Telnet and SSH Ports
+
+#line VTY 0 4	<0-4> number of users to allow access at a time
+#transport input telnet
+#transport input ssh
+#transport input telnet ssh
+#login local	(Server will ask username and passowrd to client whoes taking its access, only login is to set password on server)
+#exit
+
+Command to set username and password on overall router
+#username CISCO priveledge 15<0-15> password CISCO123
+
+Command to generate key at server (router) for SSH access.
+#crypto key generate RSA general-keys label Mykeys(name) Modulus 2048 <360-4096>
+
+---------------------------------------------------------------------------------
+COmmand to open http & https ports
+
+#ip http server (80 port will open)
+#ip http authentication local  (common command for http & https)(Command to authenticate client using username & password of router)
+
+#ip http secure-server (443 port open)
+ 
+-------------------------------------------------------------------------------------------------------------------
+
+5. TO CONF RIP ROUTING PROTOCOL			ROUTER RIP
+ THEN ADVERTISE KNOWN NETWORKS(ver 1)		NETWORK 200.20.20.0 (do not write subnet, v1 supports default subnet)
+						NETWORK 20.0.0.0 
+
+#NO ROUTER RIP		TO remove Rip configuration v1
+#no network 192.168.20.0  to remove particular network
+
+version 2
+#router rip
+#version 2
+#no auto-summary
+#network 192.168.90.0
+
+
+Authentication for RIP commands 
+Steps 
+1. Create a key chain 
+2. set that key chain in RIP
+
+1. creating keychain
+#key chain is-key (name of key)
+(confing-keychain)#key 1
+(confing-keychain-key)#key-string ccn@123(password)
+
+2. set/connect this key to RIP
+# select interfaces eth 0/0-1
+#ip rip authentication key-chain IS-KEY
+#ip rip authentication Mode md5 >>>--> encrypt password using mD5 method
+
+#debug ip rip events >>to debug routing packets of RIP
+
+--------------------------------------------------------------------------------------------------------------
+EIGRP
+6. TO CONF EIGRP PROTOCOL			ROUTER EIGRP 100(AS value should be same to share network in same group)
+ ADVERTISE NETWORKS KNOW			NETWORK 200.10.10.0 0.0.0.255 (WITH WILDCARD BITS FOR /24 SUBNET)
+						NETWORK 10.0.0.0 0.0.0.3 (WITH WILDCARD BITS FOR /30 SUBNET)
+
+#show ip eigrp neighbours -- to see neighbour table of eigrp
+#show ip eigrp topology -- to see topology table
+---------------------------------------------------------------------------------------------------
+OSPF
+7. To configure OSPF protocol			route ospf 100(PROCESS ID IS NOT IMP CAN KEEP ANY NO)	
+To advertise network				network 192.168.100.0 0.0.0.255 area 1 
+network know, wildcard bits, area(it is very important we keep same group of router in same area)
+
+#show ip ospf neighbours -- to see neighbour table of ospf
+#show ip ospf database --- to see DB table of ospf
+
+#show ip ospf interface Fastethernet 0/0 --- to check the ospf cost(property of interface)
+#select interface, #ip ospf cost 1-65535 --- to change the cost of interface in ospf (min cost wins, selected as best route)
+
+To check ios version of cisco		show version
+
+#show ip ospf interface Fastethernet 0/0 --- to check the ospf interface type, priority (property of interface)
+
+*cmd to change the priority of interface of router to make it DR router.
+#select interface
+#ip ospf priority <0-255> //higher priority=wins election and elected as DR
+(config)#clear ip ospf process //to clear ospf process
+
+*command to change interface type of router.
+#select interface #ip ospf network type (point to point/point to multipoint/(broadcast:By default)) 
+
+#default interface eth0/0 -----> to make an interface as default
+
+
+2. Authentication in OSPF 
+open router in CLI and add pass in interface
+in OSPF don't need to create key chain
+#select interfaces
+#ip ospf authentication message-digest
+#ip ospf message-digest-key 1 md5 ccn123
+
+
+..................................
+Redistribution
+
+Router RIP
+redistribute ospf 20 metric 1
+redistribute EIGRP 100 metric 1
+
+Router EIGRP 100
+metric of EIGRP bw delay stability load MTU
+redistribute RIP metric 10000 1000 255 1 1500
+redistribute OSPF 20 metric 10000 1000 255 1 1500
+metric of EIGRP bw delay stability load MTU
+
+Router OSPF 20
+redistribute RIP subnets
+redistribute OSPF 100 subnets
+-------------------------------------------------------------------------------------------------------------------------
+
+NAT
+#show ip access list
+1. Dynamic PAT: Conversion of multiple private to single public ip
+
+1. create list
+#ip access-list standard LAN-PC(list name)
+(conf-std-nacl)#permit 192.168.100.0 0.0.0.255
+#exit
+2. create policy
+#ip NAT inside source list LAN-PC interface eth 0/1 overload
+
+3. Implement list
+Now to implement policy we need to show router its inside and outside interface
+#select interface
+# ip nat inside
+#exit
+
+#select interface
+# ip nat outside
+#exit
+
+2. Static NAT: Conversion of 1 pri to 1 pub
+#ip nat inside source static 172.16.100.1 200.1.10.3
+
+3. Dynamic NAT: Conversion of multiple private ips to multiple pub ips 4=4
+#ip access-list standard IS-LAN
+#permit host 172.16.50.1
+#permit host 172.16.50.2
+#permit host 172.16.50.3
+#permit host 172.16.50.4
+
+Create pool of public ips
+#ip nat pool IS-PUB-IP 200.1.10.4 200.1.10.7 netmask 255.255.255.240 (pool of 4 public ips)
+
+Create policy to combine both lists
+#ip NAT inside list IS-LAN pool IS-PUB-IP
+Implement list on its interfaces
+
+#show ip nat translations - to check the NAT table of router
+
+------------------------------------------------------------------------------------------------------------
+
+DHCP SERVER Configuration
+
+#IP dhcp pool LAN-PC (pool name), we can create multiple pools of ip.
+#network 192.168.100.0 255.255.255.0 --->> here we configure the network and size of network (total 256 ips).
+#default-router 192.168.100.254  >> to let client know their gateway
+#DNS-SERVER 8.8.8.8 1.1.1.1 PRI AND SEC DNS
+#domain-name CCN-LAN  // this is to inform the clients in which network they have connected.
+#lease (0-365) 0=24 hours/1day, we can select "infinite" to assing ip permanently.
+#ip dhcp excluded-address 192.168.100.100 //dhcp server will not assign this ip to any client.
+
+#ip address dhcp // to assign ip from dhcp to the cisco router working as pc. 
+open interface do no shut and write this command.
+#ip dhcp // to assing ip form dhcp in VPC.
+
+#show ip dhcp binding  //to see binding table of dhcp server.
+#SHOW IP DHCP POOL  //TO SEE THE DHCP POOL
+
+-------------------------------------------------------------------------------------------------------------------
+DNS - Domain Name System Conf
+
+#ip name-server 8.8.8.8  // to show the router their domain server/ to make router DNS client.
+
+#ip dns server
+#ip host google.com 200.20.20.1
+#ip host facebook.com 200.20.20.2
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+ACL in Router. ACL - to control access of device in a network
+
+
+When we do ACL in router it becomes Security device. Usually we do ACL in Edge router.
+
+ACL list type:
+1. Standard: control source ip only, can not control destination. (It will total permit for outside networks.)
+2. Extended: Control source as well as destination. 
+
+
+>>Configuration of Standard List 
+1. Create list
+#ip access-list standard LAN-WAN (given name for inside to outside)
+#permit host 192.168.100.1      (To allow single host)
+#permit any                     (To permit any)    
+#permit 192.168.100.0 0.0.0.255 (To permit whole network with wildcard bits)
+
+2. To implemet policy on inside interface
+#interface eth0/0 (inside interface)
+#ip access-group LAN-WAN IN
+
+After this only pc1 is permitted to google and rest is blocked.
+
+...................................................
+>> Extended List:
+
+To control source and destination.
+#ip access-list extended IN-OUT
+#permit TCP host 192.168.100.1 host 200.20.20.1 (if single source and single destination)
+
+#permit TCP host 192.168.100.1 200.20.20.0 0.0.0.255 (if single source and destination is network)
+
+>>Policy for PC1 to take all access on any destination.
+#permit IP host 192.168.100.1 any
+
+To implemet policy on inside interface
+#interface eth0/0 (inside interface)
+#ip access-group IN-OUT in
+
+PC1 to Facebook 20.2 ping policy
+#permit icmp host 192.168.180.1 host 200.20.20.2 echo
+
+
+Basic Policy
+When we do ACL in router it blocks all packets including DNS and routing packets, hence we need to create basic policy for routing.
+
+#ip access-list extended IN-OUT
+#permit EIGRP any any
+#permit OSPF any any
+#permit UDP any any EQ 520 (for RIP)
+
+#permit UDP any 8.8.8.8 EQ 53  ---> For DNS
+
+>> Outbound ACL
+#Basic Outbound policy
+
+#ip access-list extended OUT-IN
+#permit tcp any host 172.16.100.1 eq 443
+
+Implementing policy on outside interface
+
+#interface eth 0/1
+#ip access-group OUT-IN in
+
+
+
+
+
+
+
+
+
+
+
+
+
