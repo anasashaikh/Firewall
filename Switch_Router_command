@@ -136,6 +136,7 @@ Commands to take access of a server and ports opening of TCP
 
 #Telnet 200.20.20.1        		(To take telnet access)
 #SSH -L CISCO(username) 200.20.20.1  	(To take SSH access)
+#ssh -p 222 -l ccn 172.16.5.20  (If taking access using map port 222, for port forwarding)
 #Telnet 200.20.20.1 80	   		(To take HTTP access)	
 #Telnet 200.20.20.2 443    		(To take HTTPS access)
 ...............
