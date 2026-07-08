@@ -1,6 +1,7 @@
 -----------------------------Fortinet Firewall- --------------------------------------------------------------------------------------
 get system interface physical 
 get system interface physical port1
+diagnose hardware sysinfo conserve          to check hardware info
 
 To configure interfaces
 #config system interface
@@ -9,7 +10,9 @@ Fortigate(interface)# edit port1
 Fortigate(port1)# set mode static    to set as static from dynmic
 Fortigate(port1)# set ip 172.16.5.19 255.255.255.0
 
-diagnose hardware sysinfo conserve          to check hardware info
+---------------------------------Routing-----------------------------------------------
+#get router info routing-table all                          To see routing table
+
 
 -------------------------------------------------------------------------------------------------
 #diagonose autoupdate versions              Fortiguard databases/engines installed
