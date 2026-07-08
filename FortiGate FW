@@ -32,4 +32,11 @@ end
 #execute log filter
 #execute log display
 
+Use in block policy to block all incoming traffic except VIPs, set to disalbe
+#Config firewall policy
+#edit <policy ID>
+#set match-vip <enable \ disable>
+#next
+#end
+-----------------------------------------------------------------------------------
 
